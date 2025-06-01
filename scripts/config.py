@@ -1,13 +1,21 @@
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Base paths
+load_dotenv()
+
+# Base project path (repo root)
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = PROJECT_ROOT / "data"         # or point to Research and Data
+
+# Use project databases path from .env, or fall back to local "data" folder for testing
+GDB_PATH = Path(os.environ["CAMPGIS_DATA"]) / "CampGIS.gdb"
+
+# Outputs always go to local outputs/ folder
 OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
-# Parameters
+# Parameters for spatial logic
 BUFFER_DISTANCE_ROAD_FT = 300
 BUFFER_DISTANCE_WATER_FT = 200
 
-# CRS for buffering (UTM or state plane, not WGS84)
-BUFFER_CRS = "EPSG:26913"  # NAD83 / UTM zone 13N (CO)
+# Projection used for spatial operations (e.g., UTM zone 13N for Colorado)
+BUFFER_CRS = "EPSG:26913"
