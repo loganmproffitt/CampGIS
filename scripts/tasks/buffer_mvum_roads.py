@@ -15,7 +15,7 @@ def buffer_mvum_roads():
     output_folder = config.OUTPUT_DIR / "mvum_roads_buffered"
     output_folder.mkdir(parents=True, exist_ok=True)
 
-    output_fp = output_folder / "mvum_roads_buffered.shp"
+    output_fp = output_folder / "mvum_roads_buffered.gpkg"
     save_layer(gdf, output_fp)
 
     print("Saved buffered roads to:", output_fp)
