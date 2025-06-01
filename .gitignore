@@ -1,0 +1,8 @@
+# Ignore heavy or derived files
+outputs/
+data/
+*.gdb
+*.lock
+__pycache__/
+*.pyc
+venv/
