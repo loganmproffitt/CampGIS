@@ -66,6 +66,3 @@ Step 6: Build Web Map
 - Standalone backend service that can be plugged into any mapping tool
 - Separate frontend interface integrated with backend
 
-
-
-

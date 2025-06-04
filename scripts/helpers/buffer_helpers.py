@@ -16,4 +16,4 @@ def load_and_project(fp, crs):
     return gdf.to_crs(crs)
 
 def save_layer(gdf, out_fp):
-    gdf.to_file(out_fp)
+    gdf.to_file(out_fp, driver="GPKG")
