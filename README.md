@@ -1,68 +1,32 @@
 # CampGIS
 
-The legality around dispersed camping is confusing, even for experienced campers. CampGIS aims to address this problem by integrating public land boundaries, MVUM access rules, proximities to roads and water, and other environmental constraints into a centralized, map-based tool. Using spatial querying, CampGIS will construct a legality confidence layer (e.g., No, Maybe, Most Likely), along with information outlining the reasoning behind each classification.
+CampGIS is a spatial analysis tool designed to help users understand where dispersed camping is legal in Colorado. It combines public land ownership, hydrography, MVUM road access, and spatial rules into a centralized, map-based interface.
 
-# MVP Planning
+Using ArcGIS Pro/Online and Python (GeoPandas, Jupyter), CampGIS processes raw datasets to generate a confidence-based legality layer (e.g., No, Maybe, Most Likely) with supporting reasoning.
 
-**Goal**
+## Features
 
-Create a prototype GIS tool using ArcGIS Pro and Online to visualize public land boundaries and a new polygon-based layer indicating dispersed camping legality:
-- Illegal (No)
-- Maybe
-- Most Likely (Yes)
-  
-The prototype will help campers understand where they can camp legally based on public data and spatial rules.
+- Integrates 45GB+ of public land, hydrography, and MVUM datasets
+- Applies spatial buffers, joins, and access logic to classify land by camping legality
+- Includes a Python-based data processing pipeline (GeoPandas, Jupyter) to automatically clean, filter, and reproject into a shared coordinate reference system (CRS)
 
-**MVP Scope**
 
-Data Layers:
-- Public land boundaries (e.g., USFS, BLM, State Land)
-- National forests and parks
-- MVUM road access data
-- Optional: Roads, water bodies, topography, elevation
+## Tech Stack
 
-Derived Layer:
-- Camping legality zones: polygon layer with 3 categories based on land type, access rules, proximity buffers, etc.
+- ArcGIS Pro/Online
+- Python, GeoPandas, Jupyter Notebooks
+- Public datasets: USFS MVUM, USGS NHD, PadUS (Protected Areas Database)
 
-**Delivery Platform**
-- ArcGIS Online web map
-- Toggable layers
-- Popups or legend for zone info
+## In Progress
 
-**Development Steps**
+- Implementing rule-based classification logic for legality zones
+- Automating data workflows using Jupyter Notebooks and Python scripting for repeatability and scalability
 
-Step 1: Research Legality Rules
-- Study MVUM access rules and dispersed camping guidelines by land type
-- Define conditions for "illegal", "maybe", and "most likely"
+## Plan Changes
 
-Step 2: Collect Data Sets
-- Land ownership (BLM, USFS, State Trust Lands)
-- MVUM data (from Forest Service)
-- Hydrography and roads (USGS NHD, OpenStreetMap)
-- Optional: slope/elevation for erosion-sensitive zones
+For the original MVP planning, see [ProjectPlan.md](docs/ProjectPlan.md).
 
-Step 3: Clean and Prepare Data
-- Reproject all layers to a common CRS
-- Clip to region of interest (e.g., Colorado or specific forest)
-- Remove noise or irrelevant features (e.g., private inholdings)
-
-Step 4: Define Logic for Legality Zones
-- Write clear rules:
-  - e.g., USFS land AND 300+ ft from water AND near MVUM road -> "Most Likely"
-  - Within 300 ft of water OR ambiguous access -> "Maybe"
-  - Private land or explicitly restricted -> "No"
- 
-Step 5: Generate Zones
-- Use ArcPy, ArcGIS ModelBuilder, or manual overlay
-- Output: a polygon layer with legality classification
-
-Step 6: Build Web Map
-- Upload reference layers and generated legality layer
-- Configure symbology and labels
-- Add layer toggles and optional popups or legends
-
-**Long Term Goals (Post MVP)**
-- QGIS / offline version
-- Standalone backend service that can be plugged into any mapping tool
-- Separate frontend interface integrated with backend
+**Key updates**
+- Focused the initial implementation on National Forests. The complexity of National Forest camping rules made it a good starting point, requiring a range of spatial operations
+- Shifted towards a script-driven data workflow using Python (GeoPandas, Jupyter). This allows for easier updates, better scalability, and a deeper understanding of the geospatial data processing
 
