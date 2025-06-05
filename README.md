@@ -27,6 +27,6 @@ Using ArcGIS Pro/Online and Python (GeoPandas, Jupyter), CampGIS processes raw d
 For the original MVP planning, see [ProjectPlan.md](docs/ProjectPlan.md).
 
 **Key updates**
-- Focused the initial implementation on National Forests. The complexity of National Forest camping rules made it a good starting point, requiring a range of spatial operations
-- Shifted towards a script-driven data workflow using Python (GeoPandas, Jupyter). This allows for easier updates, better scalability, and a deeper understanding of the geospatial data processing
+- Focused the initial implementation on National Forests. The complexity of National Forest camping rules made it a good starting point, requiring a range of spatial operations.
+- Shifted towards a script-driven data workflow using Python (GeoPandas, Jupyter). This allows for easier updates, better scalability, and a deeper understanding of the geospatial data processing.
 
