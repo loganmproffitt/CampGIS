@@ -7,24 +7,17 @@ load_dotenv()
 # Base project path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-# Project GDB location for accessing data
-GDB_PATH = Path(os.environ["CAMPGIS_DATA"]) / "CampGIS.gdb"
-RAW_DATA_PATH = Path(os.environ["RAW_DATA"])
+# Data directories
+RAW_DATA_PATH = Path(os.environ["RAW_DATA"]) # Specify RAW_DATA path in .env
+GDB_PATH = Path(os.environ["CAMPGIS_DATA"]) / "CampGIS.gdb" # Specify CAMPGIS_DATA IN .env
 
-# Output directory
-OUTPUT_DIR = PROJECT_ROOT / "outputs"
+DATA_DIR = PROJECT_ROOT / "data"
+INTERIM_PATH = DATA_DIR / "interim"
+PROCESSED_PATH = DATA_DIR / "processed"
 
-# Buffering parameters
-METERS_PER_FOOT = 0.3048
-
-BUFFER_DISTANCE_ROAD_FT = 300
-BUFFER_DISTANCE_ROAD_METERS = BUFFER_DISTANCE_ROAD_FT * METERS_PER_FOOT
-
-BUFFER_DISTANCE_WATER_FT = 200
-BUFFER_DISTANCE_WATER_METERS = BUFFER_DISTANCE_WATER_FT * METERS_PER_FOOT
-
-BUFFER_DISTANCE_STATE_BOUNDARY_FT = 300
-BUFFER_DISTANCE_STATE_BOUNDARY_METERS = BUFFER_DISTANCE_STATE_BOUNDARY_FT * METERS_PER_FOOT
-
-# Projection
+# CRS and projection
+DEFAULT_CRS = "EPSG:4326"
 BUFFER_CRS = "EPSG:26913"
+
+# Unit conversions
+METERS_PER_FOOT = 0.3048
