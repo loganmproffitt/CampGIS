@@ -2,6 +2,7 @@ from .config import RAW_DATA_PATH, INTERIM_PATH, PROCESSED_PATH
 
 RAW_FILES = {
     "state_boundary_raw": RAW_DATA_PATH / "tl_2024_us_state" / "tl_2024_us_state.shp",
+    "land_ownership_raw": RAW_DATA_PATH / "PADUS4_1_State_CO_GDB_KMZ" / "PADUS4_1_StateCO.gdb",
     "nhd_waterbody": RAW_DATA_PATH / "NHDPlus" / "NHDWaterbody",
     "nhd_area": RAW_DATA_PATH / "NHDPlus" / "NHDArea",
     "mvum_roads": RAW_DATA_PATH / "mvum" / "mvum_roads.shp",
@@ -13,7 +14,7 @@ DATA_FILES = {
     "hydro_polygon_clean": INTERIM_PATH / "hydro_polygon_clean.gpkg",
     "flowline_clean": INTERIM_PATH / "flowline_clean.gpkg",
     "mvum_clean": INTERIM_PATH / "mvum_clean.gpkg",
-    "ownership_clean": INTERIM_PATH / "ownership_clean.gpkg",
+    "land_ownership_clean": INTERIM_PATH / "land_ownership_clean.gpkg",
 }
 
 # Buffer settings (in feet)
