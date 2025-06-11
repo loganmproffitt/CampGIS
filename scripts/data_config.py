@@ -5,7 +5,7 @@ RAW_FILES = {
     "land_ownership_raw": RAW_DATA_PATH / "PADUS4_1_State_CO_GDB_KMZ" / "PADUS4_1_StateCO.gdb",
     "nhd_waterbody": RAW_DATA_PATH / "NHDPlus" / "NHDWaterbody",
     "nhd_area": RAW_DATA_PATH / "NHDPlus" / "NHDArea",
-    "mvum_roads": RAW_DATA_PATH / "mvum" / "mvum_roads.shp",
+    "mvum_raw": RAW_DATA_PATH / "Motor_Vehicle_Use_Map%3A_Roads_(Feature_Layer)" / "Motor_Vehicle_Use_Map%3A_Roads_(Feature_Layer).shp",
 }
 
 # Centralized file paths
