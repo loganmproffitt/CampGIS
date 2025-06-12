@@ -1,5 +1,4 @@
 from shapely.geometry import LineString, MultiLineString, Polygon, MultiPolygon
-import geopandas as gpd
 
 def drop_missing_geometry(gdf):
     """Drop rows with null geometries."""
@@ -28,3 +27,17 @@ def to_multipolygon(gdf):
 def validate_geometry(gdf):
     """Remove invalid geometries."""
     return gdf[gdf.is_valid].copy()
+
+def strip_z(geom):
+    """Remove Z dimension from a LineString or MultiLineString."""
+    if geom.is_empty:
+        return geom
+    if geom.has_z:
+        if isinstance(geom, LineString):
+            return LineString([(x, y) for x, y, *_ in geom.coords])
+        elif isinstance(geom, MultiLineString):
+            return MultiLineString([
+                LineString([(x, y) for x, y, *_ in line.coords])
+                for line in geom.geoms
+            ])
+    return geom
