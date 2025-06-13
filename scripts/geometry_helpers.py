@@ -28,7 +28,7 @@ def validate_geometry(gdf):
     """Remove invalid geometries."""
     return gdf[gdf.is_valid].copy()
 
-def strip_z(geom):
+def strip_z_line(geom):
     """Remove Z dimension from a LineString or MultiLineString."""
     if geom.is_empty:
         return geom
@@ -41,3 +41,15 @@ def strip_z(geom):
                 for line in geom.geoms
             ])
     return geom
+
+def strip_z_polygon(geom):
+    """Remove Z dimension from a Polygon or MultiPolygon."""
+    if geom.is_empty:
+        return geom
+    if geom.has_z:
+        if isinstance(geom, Polygon):
+            exterior = [(x, y) for x, y, *_ in geom.exterior.coords]
+            interiors = [[(x, y) for x, y, *_ in ring.coords] for ring in geom.interiors]
+            return Polygon(shell=exterior, holes=interiors)
+        elif isinstance(geom, MultiPolygon):
+            return MultiPolygon([strip_z_polygon(poly) for poly in geom.geoms])
