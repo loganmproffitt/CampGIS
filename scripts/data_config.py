@@ -15,6 +15,10 @@ DATA_FILES = {
     "flowline_clean": INTERIM_PATH / "flowline_clean.gpkg",
     "mvum_clean": INTERIM_PATH / "mvum_clean.gpkg",
     "land_ownership_clean": INTERIM_PATH / "land_ownership_clean.gpkg",
+    # Buffered
+    "mvum_buffered": INTERIM_PATH / "mvum_buffered.gpkg",
+    "water_flowline_buffered": INTERIM_PATH / "water_flowline_buffered",
+    "water_polygon_buffered": INTERIM_PATH / "water_polygon_buffered",
 }
 
 # Buffer settings (in feet)

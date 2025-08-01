@@ -27,3 +27,14 @@ def export_interim(gdf, name, driver="GPKG", verbose=True):
         gdf_display.to_file(processed_path, driver=driver)
         if verbose:
             print(f"Also saved to processed: {processed_path}")
+
+from pathlib import Path
+
+def get_project_root(marker_file="scripts/config.py"):
+    """Walk up parent directories until marker file is found."""
+    path = Path.cwd()
+    while not (path / marker_file).exists():
+        if path.parent == path:
+            raise FileNotFoundError(f"Could not find project root using marker {marker_file}")
+        path = path.parent
+    return path
