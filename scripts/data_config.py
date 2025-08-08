@@ -25,6 +25,8 @@ DATA_FILES = {
     "water_polygon_nf": INTERIM_PATH / "water_polygon_nf.gpkg",
     # Schemas
     "legality_schema": INTERIM_PATH / "legality_schema.gpkg",
+    # Legality
+    "nf_water_mvum_legality": INTERIM_PATH / "nf_water_mvum_legality.gpkg",
 }
 
 # Buffer settings (in feet)
@@ -45,5 +47,6 @@ DISPLAY_LAYERS = [
     "flowline_clean",
     "mvum_clean",
     "ownership_clean",
-    "legality_mask"
+    "legality_mask",
+    "nf_water_mvum_legality",
 ]
