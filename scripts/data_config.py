@@ -20,6 +20,7 @@ DATA_FILES = {
     "water_flowline_buffered": INTERIM_PATH / "water_flowline_buffered.gpkg",
     "water_polygon_buffered": INTERIM_PATH / "water_polygon_buffered.gpkg",
     # Land filtered
+    "nf": INTERIM_PATH / "nf.gpkg",
     "mvum_nf": INTERIM_PATH / "mvum_nf.gpkg",
     "water_flowline_nf": INTERIM_PATH / "water_flowline_nf.gpkg",
     "water_polygon_nf": INTERIM_PATH / "water_polygon_nf.gpkg",
