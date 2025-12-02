@@ -27,7 +27,7 @@ DATA_FILES = {
     # Schemas
     "legality_schema": INTERIM_PATH / "legality_schema.gpkg",
     # Legality
-    "nf_water_mvum_legality": INTERIM_PATH / "nf_water_mvum_legality.gpkg",
+    "nf_water_mvum_legality": INTERIM_PATH / "nf_water_mvum_legality",
 }
 
 # Buffer settings (in feet)
