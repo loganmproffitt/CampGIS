@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Dispersed Camping Legality Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!-- Leaflet.pattern plugin CSS (for hatched NF land fills) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.pattern/dist/leaflet.pattern.css"
+  />
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- Leaflet.pattern plugin JS -->
+  <script src="https://unpkg.com/leaflet.pattern/dist/leaflet.pattern.js"></script>
+
+  <script>
+    
+    // Map and basemap
+    const map = L.map('map').setView([40.0, -105.4], 11);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Custom panes for draw order
+
+    // Lowest: NF Land
+    map.createPane('nfLandPane');
+    map.getPane('nfLandPane').style.zIndex = 200;
+
+    // Next: Legality polygons
+    map.createPane('legalityPane');
+    map.getPane('legalityPane').style.zIndex = 300;
+
+    // Next: Flowlines
+    map.createPane('flowlinePane');
+    map.getPane('flowlinePane').style.zIndex = 400;
+
+    // Top: MVUM roads
+    map.createPane('mvumPane');
+    map.getPane('mvumPane').style.zIndex = 500;
+
+    let layersControl = null;
+    const overlayLayers = {};
+
+    // NF land hatch pattern
+    const nfPattern = new L.StripePattern({
+      weight: 2,
+      spaceWeight: 4,
+      color: '#27ae60',
+      opacity: 0.6,
+      angle: 135
+    });
+    nfPattern.addTo(map);
+
+    // Load a GeoJSON file and add to map
+    function addGeoJSONLayer(url, name, options = {}, addToMapByDefault = true) {
+      fetch(url)
+        .then(resp => {
+          if (!resp.ok) {
+            console.warn("Could not load:", url);
+            return null;
+          }
+          return resp.json();
+        })
+        .then(data => {
+          if (!data) return;
+
+          const layer = L.geoJSON(data, options);
+          overlayLayers[name] = layer;
+          if (addToMapByDefault) {
+            layer.addTo(map);
+          }
+
+          // Create or update layer control
+          if (!layersControl) {
+            layersControl = L.control.layers(null, overlayLayers, { collapsed: false });
+            layersControl.addTo(map);
+          } else {
+            layersControl.addOverlay(layer, name);
+          }
+
+          // Center and zoom on legality layer on load
+          if (name === "NF Legality") {
+          const b = layer.getBounds();
+          if (b.isValid()) {
+              const center = b.getCenter();
+              map.setView(center, 13.5);
+          }
+        }
+        })
+        .catch(err => console.error("Error loading", url, err));
+    }
+
+    // Legality layer logic
+
+    // Field "legality" with values
+    function getLegalityValue(props) {
+      if (!props) return "";
+      return props.legality || "";
+    }
+
+    const legalityStyle = function (feature) {
+      const val = String(getLegalityValue(feature.properties)).toLowerCase().trim();
+      const isLikelyLegal = (val === "likely legal");
+      const isIllegal     = (val === "illegal");
+
+      return {
+        pane: 'legalityPane',
+        color: isLikelyLegal ? "#20e00e" : "#df0101",
+        weight: 1,
+        fillColor: isLikelyLegal ? "#20e00e" : "#df0101",
+        fillOpacity: 0.35
+      };
+    };
+
+    const legalityPopup = function (feature, layer) {
+  const props = feature.properties || {};
+  const v = getLegalityValue(props) || "Unknown";
+
+  const reasoning =
+    props.reasoning ||
+    props.reason ||
+    props.notes ||
+    props.explanation ||
+    "";
+
+  let html = "<b>Legality</b><br>" + v;
+
+  if (reasoning) {
+    html += "<br><b>Reasoning</b><br>" + reasoning;
+  }
+
+
+  layer.bindPopup(html);
+};
+
+
+    // Add layers
+
+    // Main legality layer)
+    addGeoJSONLayer(
+      "nf_legality_demo.geojson",
+      "NF Legality",
+      { style: legalityStyle, onEachFeature: legalityPopup },
+      true
+    );
+/*
+    // NF land with hatched fill (bottom pane)
+    addGeoJSONLayer(
+        "nf_land_demo.geojson",
+        "NF Land",
+        {
+            style: function () {
+            return {
+                pane: 'nfLandPane',
+                color: "#27ae60",
+                weight: 1,
+                fillOpacity: 1.0,
+                fillPattern: nfPattern // MUST be inside a style function
+            };
+            }
+        },
+        true
+    );
+*/
+    // Flowlines
+    addGeoJSONLayer(
+      "flowline_demo.geojson",
+      "Flowlines",
+      {
+        style: {
+          pane: 'flowlinePane',
+          color: "#001fcb",
+          weight: 1,
+          opacity: 0.6
+        }
+      },
+      true
+    );
+
+    // MVUM roads
+    addGeoJSONLayer(
+      "mvum_demo.geojson",
+      "MVUM Roads",
+      {
+        style: {
+          pane: 'mvumPane',
+          color: "#ab6700",
+          weight: 1.2,
+          opacity: 0.73
+        }
+      },
+      true
+    );
+  </script>
+</body>
+</html>
