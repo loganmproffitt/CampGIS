@@ -9,6 +9,7 @@ Using ArcGIS Pro/Online and Python (GeoPandas, Jupyter), CampGIS processes raw d
 - Integrates 45GB+ of public land, hydrography, and MVUM datasets
 - Applies spatial buffers, joins, and access logic to classify land by camping legality
 - Includes a Python-based data processing pipeline (GeoPandas, Jupyter) to automatically clean, filter, and reproject into a shared coordinate reference system (CRS)
+- Generates a rule-based classification logic for legality zones
 
 
 ## Tech Stack
@@ -17,10 +18,6 @@ Using ArcGIS Pro/Online and Python (GeoPandas, Jupyter), CampGIS processes raw d
 - Python, GeoPandas, Jupyter Notebooks
 - Public datasets: USFS MVUM, USGS NHD, PadUS (Protected Areas Database)
 
-## In Progress
-
-- Implementing rule-based classification logic for legality zones
-- Automating data workflows using Jupyter Notebooks and Python scripting for repeatability and scalability
 
 ## Plan Changes
 
